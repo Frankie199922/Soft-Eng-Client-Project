@@ -12,7 +12,7 @@ connection = 'mysql+pymysql://root:root@localhost/RealEstate'
 app = Flask(__name__)
 
 # Connect to SQLAlchemy
-app.config['SECERET_KEY'] = 'SECRET'
+app.secret_key = 'SECRET'
 app.config['SQLALCHEMY_DATABASE_URI'] = connection
 db = SQLAlchemy(app)
 
