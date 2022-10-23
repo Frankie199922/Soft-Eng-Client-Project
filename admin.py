@@ -5,6 +5,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
 import re
+import MySQLdb.cursors
 
 # Connect MYSQL db to pymysql
 connection = 'mysql+pymysql://root:root@localhost/RealEstate'
@@ -66,6 +67,20 @@ class User(db.Model):
 admin.add_view(ModelView(Clients, db.session))
 admin.add_view(ModelView(Messages, db.session))
 admin.add_view(ModelView(Listings, db.session))
+
+
+@app.route('/index')
+def homepage():
+    return render_template('index.html')
+
+@app.route('/')
+@app.route('/listings')
+def listings():
+    db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
+    cur = db.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM listings ', )
+    loc=cur.fetchall()
+    return render_template('listings.html', loc=loc)
 
 if __name__ == '__main__':
     # Should be able to access admin from localhost/admin in url

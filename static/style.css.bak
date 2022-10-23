@@ -1,18 +1,17 @@
 .flex-list{
 	display:flex;
-	
+	align-items:right-algin;
 	
 }
 
 .flex-list div{
-	
+	justify-content:flex-end;
 	border:10px solid yellow;
 	Width:1000px;
 	
 }
 
 .prop-one p{
-	text-align:right;
 	color:green;
 	
 }
