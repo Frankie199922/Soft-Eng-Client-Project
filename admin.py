@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 admin = Admin(app)
 
 
-# Modelling databases
+# Modelling database tables
 
 class Clients(db.Model):
     ClientID = db.Column(db.Integer, primary_key=True)
@@ -54,19 +54,41 @@ class Listings(db.Model):
 
 class User(db.Model):
     UserID = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), unique=True, nullable=False)
 
 
-# Use only first time to create otherwise comment out!
-# If not you may have to use cmd prompt to make db instead.
+# Override ModelView
+class messageModelView(ModelView) :
+    # ModelView Functionality
+    can_edit = False
+    can_create = False
+    page_size = 20
 
-# db.create_all()
+
+class clientModelView(ModelView) :
+    # ModelView Functionality        
+    page_size = 20  
+
+
+class listingsModelView(ModelView) :
+    # ModelView Functionality        
+    page_size = 20  
+
 
 # Creating ModelView for each table for use with Flask-Admin
-admin.add_view(ModelView(Clients, db.session))
-admin.add_view(ModelView(Messages, db.session))
-admin.add_view(ModelView(Listings, db.session))
+admin.add_view(clientModelView(Clients, db.session))
+admin.add_view(messageModelView(Messages, db.session))
+admin.add_view(listingsModelView(Listings, db.session))
+
 
 if __name__ == '__main__':
+
     # Should be able to access admin from localhost/admin in url
     app.run(debug=True)
+
+
+    # Use only first time to create otherwise comment out!
+    # If not you may have to use cmd prompt to make db instead.
+
+    # db.create_all()
