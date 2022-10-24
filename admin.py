@@ -54,8 +54,8 @@ class Listings(db.Model):
 
 class User(db.Model):
     UserID = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255), unique=True, nullable=False)
-    password = db.Column(db.String(255), unique=True, nullable=False)
+    Username = db.Column(db.String(255), unique=True, nullable=False)
+    Password = db.Column(db.String(255), unique=True, nullable=False)
 
 
 # Override ModelView
