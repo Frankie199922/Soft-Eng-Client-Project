@@ -90,7 +90,7 @@ def propertyPage(propID):
     cur.execute('SELECT * FROM listings Where PropertyID='+str(propID))
     loc=cur.fetchall()
     #return a view of the detailed property listing
-    return None
+    return render_template('detailedListing.html',loc=loc)
 
 
 

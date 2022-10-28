@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+</head>
+
+<body>
+	{% for lis in loc %}
+		<p>Address:{{ lis.Location}}
+		<br>State:{{ lis.State }} 
+		<br>City:{{ lis.City }} 
+		<br>Zip:{{ lis.Zip }} 
+		<br>List Price:${{ lis.Price }}  
+	{% endfor %}
+
+</body>
+
+
+</html>
