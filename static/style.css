@@ -411,4 +411,22 @@ nav .profile-details i{
     left: 60px;
     width: calc(100% - 60px);
   }
+    .flex-list{
+	display:flex;
+	
+	
+ }
+
+ .flex-list div{
+	
+	border:10px solid yellow;
+	Width:1000px;
+	
+ }
+
+ .prop-one p{
+	text-align:right;
+	color:green;
+	
+ }
 }
