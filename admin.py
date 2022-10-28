@@ -74,7 +74,9 @@ class clientModelView(ModelView) :
 class listingsModelView(ModelView) :
     # ModelView Functionality        
     page_size = 20  
-
+@app.route('/')
+def homepage():
+    return render_template('index.html')
 @app.route('/listings')
 def listings():
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
