@@ -78,15 +78,22 @@ def homepage():
 def listings():
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
     cur = db.cursor(MySQLdb.cursors.DictCursor)
-    cur.execute('SELECT * FROM listings ',)
+    cur.execute('SELECT * FROM listings ', )
     loc=cur.fetchall()
     return render_template('listings.html', loc=loc)
 
-@app.route('/listing/<int:propID>',methods=['GET','POST'])
-def locationListing():
+@app.route('/listings/<int:propID>')
+def propertyPage(propID):
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
     cur = db.cursor(MySQLdb.cursors.DictCursor)
-    cur.execute('SELECT PropertyID FROM listings', )
+    selection=''
+    cur.execute('SELECT * FROM listings Where PropertyID='+str(propID))
+    loc=cur.fetchall()
+    #return a view of the detailed property listing
+    return None
+
+
+
 
 if __name__ == '__main__':
     # Should be able to access admin from localhost/admin in url

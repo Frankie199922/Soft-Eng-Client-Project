@@ -8,11 +8,12 @@
 	<div class="flex-list">
 	{% for lis in loc %}
 		<div class="prop-one">
-		<p>Address:{{ lis.Location}} 	&nbsp
-		<br>State:{{ lis.State }}  	&nbsp
-		<br>City:{{ lis.City }}  	&nbsp
-		<br>Zip:{{ lis.Zip }}  	&nbsp
-		<br>List Price:${{ lis.Price }}  &nbsp
+		<p><a href=listings/{{lis.PropertyID}}><button style="background:none;border:none;color:#069;height 75px;width:150px">click</button></a></p>
+		<p>Address:{{ lis.Location}}
+		<br>State:{{ lis.State }} 
+		<br>City:{{ lis.City }} 
+		<br>Zip:{{ lis.Zip }} 
+		<br>List Price:${{ lis.Price }}  	
 		</p>
 	{% endfor %}	
 		</div>
