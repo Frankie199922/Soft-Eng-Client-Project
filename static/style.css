@@ -320,6 +320,26 @@ nav .profile-details i{
   font-weight: 400;
   color: #333;
 }
+
+.flex-list{
+	display:flex;
+ }
+.flex-list div{	
+	border:#fff;
+	width:2px;
+	flex-grow:1;
+	background:#fff;
+	padding: 20px 30px;
+  	margin: 0 20px;
+ 	 border-radius: 12px;
+  	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+	font-size:20px;
+ }
+.prop-one p{
+	text-align:right;	
+}
+
+
 /* Responsive Media Query */
 @media (max-width: 1240px) {
   .sidebar{
@@ -411,22 +431,5 @@ nav .profile-details i{
     left: 60px;
     width: calc(100% - 60px);
   }
-    .flex-list{
-	display:flex;
-	
-	
- }
 
- .flex-list div{
-	
-	border:10px solid yellow;
-	Width:1000px;
-	
- }
-
- .prop-one p{
-	text-align:right;
-	color:green;
-	
- }
 }

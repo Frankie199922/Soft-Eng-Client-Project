@@ -85,6 +85,15 @@ def listings():
     loc=cur.fetchall()
     return render_template('listings.html', loc=loc)
 
+@app.route('/listing/<int:pageNumber>')
+def listingsOther(pageNumber):
+    db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
+    cur = db.cursor(MySQLdb.cursors.DictCursor)
+    pageNum=pageNumber
+    cur.execute('SELECT * FROM listings ', )
+    locInfo=cur.fetchall()
+    return render_template('altListings.html')
+
 @app.route('/listings/<int:propID>')
 def propertyPage(propID):
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
