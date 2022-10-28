@@ -5,7 +5,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
 import re
-
+import MySQLdb.cursors
 # Connect MYSQL db to pymysql
 connection = 'mysql+pymysql://root:root@localhost/RealEstate'
 
@@ -75,6 +75,23 @@ class listingsModelView(ModelView) :
     # ModelView Functionality        
     page_size = 20  
 
+@app.route('/listings')
+def listings():
+    db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
+    cur = db.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM listings ', )
+    loc=cur.fetchall()
+    return render_template('listings.html', loc=loc)
+
+@app.route('/listings/<int:propID>')
+def propertyPage(propID):
+    db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
+    cur = db.cursor(MySQLdb.cursors.DictCursor)
+    selection=''
+    cur.execute('SELECT * FROM listings Where PropertyID='+str(propID))
+    loc=cur.fetchall()
+    #return a view of the detailed property listing
+    return render_template('detailedListing.html',loc=loc)
 
 # Creating ModelView for each table for use with Flask-Admin
 admin.add_view(clientModelView(Clients, db.session))

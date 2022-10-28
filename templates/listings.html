@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type ="text/css" href="{{ url_for('static',filename='style.css') }}">
+</head>
+<body>
+	<h1>listings</h1>
+	<div class="flex-list">
+	{% for lis in loc %}
+		<div class="prop-one">
+		<p><a href=listings/{{lis.PropertyID}}><button style="background:none;border:none;color:#069;text-decoration:underline;">click</button></a></p>
+		<p>Address:{{ lis.Location}}
+		<br>State:{{ lis.State }} 
+		<br>City:{{ lis.City }} 
+		<br>Zip:{{ lis.Zip }} 
+		<br>List Price:${{ lis.Price }}  	
+		</p>
+	{% endfor %}	
+		</div>
+	
+	</div>
+	<div class="ass"><p>Hello</p> </div>
+	
+</body>
+</html>
