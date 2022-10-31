@@ -1,15 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_login import LoginManager
+from flask_admin.form import ImageUploadField
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
 import re
 import MySQLdb.cursors
+from flask_admin.contrib.fileadmin import FileAdmin
+import os.path as op
+
+
 # Connect MYSQL db to pymysql
 connection = 'mysql+pymysql://root:root@localhost/RealEstate'
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 # Connect to SQLAlchemy
 app.secret_key = 'SECRET'
@@ -20,8 +25,12 @@ db = SQLAlchemy(app)
 admin = Admin(app)
 
 
-# Modelling database tables
+# establish path and ModelView for Picture upload
+base_path = op.join(op.dirname(__file__), 'static/pictures')
+admin.add_view(FileAdmin(base_path, '/static/', name='Pictures'))
 
+
+# Modelling database tables
 class Clients(db.Model):
     ClientID = db.Column(db.Integer, primary_key=True)
     FirstName = db.Column(db.String(25), unique=False, nullable=False)
@@ -50,6 +59,7 @@ class Listings(db.Model):
     Bathroom = db.Column(db.Integer, unique=False, nullable=False)
     SquareFeet = db.Column(db.Float(15, 2), unique=False, nullable=False)
     Description = db.Column(db.String(1000), unique=False, nullable=False)
+    Pictures = db.Column(db.String(1000), unique=False, nullable=False)
 
 
 class User(db.Model):
@@ -65,18 +75,50 @@ class messageModelView(ModelView) :
     can_create = False
     page_size = 20
 
+    form_columns = ['FirstName', 'LastName', 'PhoneNumber', 'Email', 'Comment']
+    column_labels = dict(FirstName="First Name", LastName='Last Name',
+                         PhoneNumber='Phone Number',
+                         Email='Email', Comment='Comment')
+
 
 class clientModelView(ModelView) :
     # ModelView Functionality        
-    page_size = 20  
+    page_size = 20
+
+    form_columns = ['FirstName', 'LastName', 'PhoneNumber', 'Email']
+    column_labels = dict(FirstName="First Name", LastName='Last Name',
+                         PhoneNumber='Phone Number',
+                         Email='Email')
 
 
 class listingsModelView(ModelView) :
     # ModelView Functionality        
-    page_size = 20  
+    page_size = 20
+
+    form_columns = ['Location', 'City', 'State', 'Zip',
+                    'Price', 'Bedroom', 'Bathroom', 'SquareFeet',
+                    'Description', 'Pictures']
+    column_labels = dict(Location="Street Address", City='City', State='State',
+                         Zip='Zip Code', Price='Price',
+                         Bedroom='Bedroom', Bathroom='Bathroom',
+                         SquareFeet='Square Feet',
+                         Description='Description', Pictures='Picture')
+
+    form_overrides = dict(Pictures=ImageUploadField)
+    form_args = {
+        'Pictures': {
+            'label': 'File',
+            'base_path': base_path,
+            'allow_overwrite': True
+        }
+    }
+
+
 @app.route('/')
 def homepage():
     return render_template('index.html')
+
+
 @app.route('/listings')
 def listings():
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
@@ -84,6 +126,7 @@ def listings():
     cur.execute('SELECT * FROM listings ', )
     loc=cur.fetchall()
     return render_template('listings.html', loc=loc)
+
 
 @app.route('/listing/<int:pageNumber>')
 def listingsOther(pageNumber):
@@ -94,6 +137,7 @@ def listingsOther(pageNumber):
     locInfo=cur.fetchall()
     return render_template('altListings.html')
 
+
 @app.route('/listings/<int:propID>')
 def propertyPage(propID):
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
@@ -103,6 +147,7 @@ def propertyPage(propID):
     loc=cur.fetchall()
     #return a view of the detailed property listing
     return render_template('detailedListing.html',loc=loc)
+
 
 # Creating ModelView for each table for use with Flask-Admin
 admin.add_view(clientModelView(Clients, db.session))
@@ -118,5 +163,4 @@ if __name__ == '__main__':
 
     # Use only first time to create otherwise comment out!
     # If not you may have to use cmd prompt to make db instead.
-
     # db.create_all()
