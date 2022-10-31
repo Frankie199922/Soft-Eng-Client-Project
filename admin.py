@@ -16,6 +16,25 @@ connection = 'mysql+pymysql://root:root@localhost/RealEstate'
 
 app = Flask(__name__, static_folder='static')
 
+@property
+def is_authenticated(self):
+  return True
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        if request.form.get("username") == "root" and request.form.get("password") == "root":
+            session['logged_in'] = True
+            return redirect("/admin")
+        else:
+            return render_template("login.html")
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
+
 # Connect to SQLAlchemy
 app.secret_key = 'SECRET'
 app.config['SQLALCHEMY_DATABASE_URI'] = connection
@@ -71,6 +90,12 @@ class User(db.Model):
 # Override ModelView
 class messageModelView(ModelView) :
     # ModelView Functionality
+    def is_accessible(self):
+        if "logged_in" in session:
+            return True
+        else:
+            abort(403)
+    
     can_edit = False
     can_create = False
     page_size = 20
@@ -82,7 +107,13 @@ class messageModelView(ModelView) :
 
 
 class clientModelView(ModelView) :
-    # ModelView Functionality        
+    # ModelView Functionality  
+    def is_accessible(self):
+        if "logged_in" in session:
+            return True
+        else:
+            abort(403)
+            
     page_size = 20
 
     form_columns = ['FirstName', 'LastName', 'PhoneNumber', 'Email']
@@ -92,7 +123,13 @@ class clientModelView(ModelView) :
 
 
 class listingsModelView(ModelView) :
-    # ModelView Functionality        
+    # ModelView Functionality  
+    def is_accessible(self):
+        if "logged_in" in session:
+            return True
+        else:
+            abort(403)
+            
     page_size = 20
 
     form_columns = ['Location', 'City', 'State', 'Zip',
