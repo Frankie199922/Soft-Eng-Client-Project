@@ -1,12 +1,50 @@
 <!DOCTYPE html>
 <html>
-
+<!DOCTYPE html>
 <head>
-
+<link rel="stylesheet" type ="text/css" href="{{ url_for('static',filename='style.css') }}">
 
 </head>
 
 <body>
+	<div class="sidebar">
+    <div class="logo-details">
+      <i class='bx bxl-c-plus-plus'></i>
+      <span class="logo_name">Omar Nunez Real Esate</span>
+    </div>
+      <ul class="nav-links">
+        <li>
+          <a href="/" class="active">
+            <i class='bx bx-grid-alt' ></i>
+            <span class="links_name">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href=/listings>
+            <i class='bx bx-box' ></i>
+            <span class="links_name">Listings</span>
+          </a>
+        </li>
+        <li>
+          <a href="clients">
+            <i class='bx bx-list-ul' ></i>
+            <span class="links_name">Clients</span>
+          </a>
+        </li>
+        <li>
+          <a href="messages">
+            <i class='bx bx-message' ></i>
+            <span class="links_name">Messages</span>
+          </a>
+        </li>
+        <li class="log_out">
+          <a href="">
+            <i class='bx bx-log-out'></i>
+            <span class="links_name">Log out</span>
+          </a>
+        </li>
+      </ul>
+  </div>
 	{% for lis in loc %}
 		<p>Address:{{ lis.Location}}
 		<br>State:{{ lis.State }} 
