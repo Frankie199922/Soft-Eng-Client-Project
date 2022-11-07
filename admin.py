@@ -90,6 +90,12 @@ class User(db.Model):
     Password = db.Column(db.String(255), unique=True, nullable=False)
 
 
+class AboutMe(db.Model):
+    AboutID = db.Column(db.Integer, primary_key=True)
+    Description = db.Column(db.String(255), unique=False, nullable=False)
+    Pictures = db.Column(db.String(255), unique=False, nullable=False)
+
+
 # Override ModelView
 class messageModelView(ModelView) :
     # ModelView Functionality
@@ -107,6 +113,23 @@ class messageModelView(ModelView) :
     column_labels = dict(FirstName="First Name", LastName='Last Name',
                          PhoneNumber='Phone Number',
                          Email='Email', Comment='Comment')
+
+
+class aboutMeModelView(ModelView) :
+    def is_accessible(self):
+        if "logged_in" in session:
+            return True
+        else:
+            abort(403)
+
+    page_size = 1
+
+    form_columns = ['AboutID', 'Description', 'Pictures']
+    column_labels = dict(Description="Description", Pictures='Picture')
+
+    can_edit = True
+    can_delete = False
+    can_create = False
 
 
 class clientModelView(ModelView) :
@@ -189,17 +212,20 @@ def propertyPage(propID):
     return render_template('detailedListing.html',loc=loc)
 
 
+# db.create_all()
+
+
 # Creating ModelView for each table for use with Flask-Admin
 admin.add_view(clientModelView(Clients, db.session))
 admin.add_view(messageModelView(Messages, db.session))
 admin.add_view(listingsModelView(Listings, db.session))
+admin.add_view(aboutMeModelView(AboutMe, db.session))
 
 
 if __name__ == '__main__':
 
     # Should be able to access admin from localhost/admin in url
     app.run(debug=True)
-
 
     # Use only first time to create otherwise comment out!
     # If not you may have to use cmd prompt to make db instead.
