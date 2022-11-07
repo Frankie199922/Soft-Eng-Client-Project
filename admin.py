@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_admin.menu import MenuLink
 from flask_login import LoginManager
 from flask_admin.form import ImageUploadField
 from flask_admin import Admin
@@ -43,6 +44,8 @@ db = SQLAlchemy(app)
 # Instantiate admin class
 admin = Admin(app)
 
+#add logout button
+admin.add_link(MenuLink(name='Logout', category='', url="/logout"))
 
 # establish path and ModelView for Picture upload
 base_path = op.join(op.dirname(__file__), 'static/pictures')
