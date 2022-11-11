@@ -12,6 +12,7 @@ from flask_admin.contrib.fileadmin import FileAdmin
 import os.path as op
 from werkzeug.exceptions import abort
 
+
 # Connect MYSQL db to pymysql
 connection = 'mysql+pymysql://root:root@localhost/RealEstate'
 
@@ -182,12 +183,19 @@ def homepage():
     return render_template('index.html')
 
 
-@app.route('/listings')
+@app.route('/listings',methods=["GET","POST"])
 def listings():
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
     cur = db.cursor(MySQLdb.cursors.DictCursor)
     cur.execute('SELECT * FROM listings ', )
     loc=cur.fetchall()
+    if request.method=="POST":
+        zpc=request.form.get("zp")
+        l="/listings/"
+        newL=l+zpc
+        return redirect(newL)
+
+
     return render_template('listings.html', loc=loc)
 
 
@@ -212,7 +220,7 @@ def propertyPage(propID):
     return render_template('detailedListing.html',loc=loc)
 
 
-# db.create_all()
+#db.create_all()
 
 
 # Creating ModelView for each table for use with Flask-Admin

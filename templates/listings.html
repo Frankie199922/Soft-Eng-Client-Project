@@ -45,12 +45,18 @@
 	<div class="flex-list">
 	{% for lis in loc %}
 		<div class="prop-one">
+		<img src='/static/pictures/cat.jpg' width="500" height="300" style="position:relative; left:80px; top:2px;">
 		<p><a href=listings/{{lis.PropertyID}}><button style="background:none;border:none;color:#069;text-decoration:underline;">click</button></a></p>
+		
 		<p>Address:{{ lis.Location}}
 		<br>State:{{ lis.State }} 
 		<br>City:{{ lis.City }} 
 		<br>Zip:{{ lis.Zip }} 
-		<br>List Price:${{ lis.Price }}  	
+		<br>List Price:${{ lis.Price }}  
+		<form action="{{url_for("listings")}}" method="post">
+		<label for="zip"> Zip</label>
+		<input type="text" id="zip" name ="zp" placeholder="z">
+		<button type=submit>search</button>
 		</p>
 	{% endfor %}	
 		</div>
