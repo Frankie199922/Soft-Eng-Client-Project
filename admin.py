@@ -1,17 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, session, abort
-from flask_admin.menu import MenuLink
-from flask_login import LoginManager
-from flask_admin.form import ImageUploadField
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
-from flask_sqlalchemy import SQLAlchemy
-import pymysql
+import ast
+import os.path as op
 import re
 import MySQLdb.cursors
+import pymysql
+from flask import (Flask, abort, redirect, render_template, request, session)
+from flask_admin import Admin
+from flask_admin._backwards import Markup
 from flask_admin.contrib.fileadmin import FileAdmin
-import os.path as op
+from flask_admin.contrib.sqla import ModelView
+from flask_admin.menu import MenuLink
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import abort
-
+from imageupload import customImageUploadField
 
 # Connect MYSQL db to pymysql
 connection = 'mysql+pymysql://root:root@localhost/RealEstate'
@@ -168,14 +168,28 @@ class listingsModelView(ModelView) :
                          SquareFeet='Square Feet',
                          Description='Description', Pictures='Picture')
 
-    form_overrides = dict(Pictures=ImageUploadField)
-    form_args = {
-        'Pictures': {
-            'label': 'File',
-            'base_path': base_path,
-            'allow_overwrite': True
+    def _list_thumbnail(view, model):
+
+        if not model.image:
+            return ''
+
+        return Markup("<br />".join([(image) for image in ast.literal_eval(model.image)]))
+    
+
+    form_extra_fields = {'Pictures' : customImageUploadField('Pictures',
+        base_path = op.join(op.dirname(__file__), 'static/pictures'),
+        url_relative_path="/static/pictures/",
+        thumbnail_size=(1000, 800, 1))
         }
-    }
+
+    #form_args = {
+        #'Pictures': {
+        #    'allow_overwrite': True
+        #}
+    #}
+
+    def create_model(self, form):
+        return super().create_model(form)
 
 
 @app.route('/')
