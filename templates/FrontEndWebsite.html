@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>W3.CSS Template</title>
+<title>Omar Nunez Real Estate</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style2.css">
+<link rel="stylesheet" type ="text/css" href="{{ url_for('static',filename='style2.css') }}">
 </head>
 <body>
 
@@ -23,7 +23,7 @@
 
 <!-- Header -->
 <header class="w3-display-container w3-content w3-wide" style="max-width:1200px;" id="home">
-  <img class="w3-image" src="Omar.jpeg" alt="Omar Nunez" width="1500" height="100">
+  <img class="w3-image" src="/static/pictures/Omar.jpeg" alt="Omar Nunez" width="1500" height="100">
   <div class="w3-display-middle w3-margin-top w3-center">
     <h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>Omar Nunez</b></span> <span class="w3-hide-small w3-text-light-grey">Real Estate</span></h1>
   </div>
@@ -46,29 +46,35 @@
    <!-- Project Section -->
    <div class="w3-container w3-padding-32" id="projects">
     <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Featured Listings</h3>
+	<h6><a href="/listings">(View All)</a></h6>
   </div>
 
   <div class="w3-row-padding">
     <div class="w3-col l3 m6 w3-margin-bottom">
       <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding">Listing</div>
-        <img src="" alt="House" style="width:100%">
+        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc.PropertyID}}>View Listing</a></div>
+        <img src=/static/pictures/{{loc.Pictures.split("'")[1]}} alt="House" style="width:100%">
+		<p>{{loc.Location}}</p>		
       </div>
     </div>
     
     <div class="w3-col l3 m6 w3-margin-bottom">
       <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding">Listing</div>
-        <img src="" alt="House" style="width:100%">
+        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc2.PropertyID}}>View Listing</a></div>
+        <img src=/static/pictures/{{loc2.Pictures.split("'")[1]}} alt="House" style="width:100%">
+		<p>{{loc2.Location}}</p>
       </div>
     </div>
+	
     <div class="w3-col l3 m6 w3-margin-bottom">
       <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding">Listing</div>
-        <img src="" alt="House" style="width:100%">
+        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc3.PropertyID}}>View Listing</a></div>
+        <img src=/static/pictures/{{loc3.Pictures}} alt="House" style="width:100%">
+		<p>{{loc3.Location}}</p>
       </div>
     </div>
   </div>
+  
 
   
 
@@ -76,16 +82,17 @@
   <div class="w3-container w3-padding-32" id="contact">
     <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Contact</h3>
     <p>Lets get in touch and talk about your next project.</p>
-    <form action="/action_page.php" target="_blank">
-      <input class="w3-input w3-border" type="text" placeholder="First Name" required name="First Name">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Last Name" required name="Last Name">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Email" required name="Email">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Subject" required name="Subject">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Comment" required name="Comment">
+    <form action="/#home" method="post">
+      <input class="w3-input w3-border" type="text" placeholder="First Name" name="first">
+      <input class="w3-input w3-section w3-border" type="text" placeholder="Last Name"name="last">
+      <input class="w3-input w3-section w3-border" type="text" placeholder="Email" name="email">
+      <input class="w3-input w3-section w3-border" type="text" placeholder="Subject" name="subject">
+      <input class="w3-input w3-section w3-border" type="text" placeholder="Comment" name="comment">
       <button class="w3-button w3-black w3-section" type="submit">
         <i class="fa fa-paper-plane"></i> SEND MESSAGE
       </button>
     </form>
+	
   </div>
   
 
@@ -96,6 +103,7 @@
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-16">
   <p>Behind every home is a story to tell, let's find yours TOGETHER." - Omar Nunez</a></p>
+  <p><a href="/login">Are you the owner? Click Here</p>
 </footer>
 
 </body>

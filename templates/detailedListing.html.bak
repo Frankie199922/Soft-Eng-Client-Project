@@ -85,7 +85,7 @@ function showSlides(n) {
 } 
 </script>
 <br>
-	<div class="list-desc" style="font-family:Lucida Console, Courier New, monospace;">
+	<div class="list-desc" style="font-family:Consolas;">
 		<h2>Price:${{ loc.Price }} 
 		<br>Address:{{loc.Location}}
 		<br>Details:

@@ -27,7 +27,7 @@
 		 <div class="w3-display-container">
          <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{lis.PropertyID}}>View Listing</a></div>
 			<img src=/static/pictures/{{lis.Pictures.split("'")[1]}} alt="House" style="width:400px; height:300px; ">
-			<p style="white-space: nowrap;">{{lis.Location}} </p>
+			<p style="wrap:no-wrap;">{{lis.Location}} </p>
 		
       </div>
     </div>

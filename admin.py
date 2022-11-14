@@ -192,9 +192,18 @@ class listingsModelView(ModelView) :
         return super().create_model(form)
 
 
-@app.route('/')
+@app.route('/',methods=["GET","POST"])
 def homepage():
-    return render_template('index.html')
+    db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
+    cur = db.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM listings ', )
+    loc = cur.fetchone()
+    loc2= cur.fetchone()
+    loc3= cur.fetchone()
+
+
+
+    return render_template('FrontEndWebsite.html',loc=loc,loc2=loc2,loc3=loc3)
 
 
 @app.route('/listings',methods=["GET","POST"])
@@ -208,7 +217,6 @@ def listings():
         l="/listings/"
         newL=l+zpc
         return redirect(newL)
-
 
     return render_template('listings.html', loc=loc)
 
@@ -229,12 +237,12 @@ def propertyPage(propID):
     cur = db.cursor(MySQLdb.cursors.DictCursor)
     selection=''
     cur.execute('SELECT * FROM listings Where PropertyID='+str(propID))
-    loc=cur.fetchall()
+    loc=cur.fetchone()
     #return a view of the detailed property listing
     return render_template('detailedListing.html',loc=loc)
 
 
-#db.create_all()
+db.create_all()
 
 
 # Creating ModelView for each table for use with Flask-Admin
