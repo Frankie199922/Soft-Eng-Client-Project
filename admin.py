@@ -10,6 +10,7 @@ from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.menu import MenuLink
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import PrimaryKeyConstraint
 from werkzeug.exceptions import abort
 from imageupload import customImageUploadField
 
@@ -64,12 +65,15 @@ class Clients(db.Model):
 
 class Messages(db.Model):
     MessageID = db.Column(db.Integer, primary_key=True)
-    FirstName = db.Column(db.String(25), unique=False, nullable=False)
-    LastName = db.Column(db.String(25), unique=False, nullable=False)
-    PhoneNumber = db.Column(db.String(12), unique=True, nullable=True)
-    Email = db.Column(db.String(320), unique=True, nullable=True)
     Comment = db.Column(db.String(1000), unique=False, nullable=False)
 
+class ClientMessage(db.Model):
+    __table_args__ = (
+        PrimaryKeyConstraint('Client_ID', 'Message_ID'),
+    )
+    Client_ID = db.Column(db.Integer, db.ForeignKey('Clients.ClientID'))
+    Message_ID = db.Column(db.Integer, db.ForeignKey('Messages.MessageID'))
+    Message_Date = db.Column(db.DATE)
 
 class Listings(db.Model):
     PropertyID = db.Column(db.Integer, primary_key=True)
@@ -98,6 +102,15 @@ class AboutMe(db.Model):
 
 
 # Override ModelView
+
+class ClientMessage(ModelView) :
+   # ModelView Functionality
+   def is_accessible(self):
+       if "logged_in" in session:
+           return True
+       else:
+           abort(403)
+          
 class messageModelView(ModelView) :
     # ModelView Functionality
     def is_accessible(self):
@@ -108,12 +121,11 @@ class messageModelView(ModelView) :
     
     can_edit = False
     can_create = False
+    can_delete = True
     page_size = 20
 
-    form_columns = ['FirstName', 'LastName', 'PhoneNumber', 'Email', 'Comment']
-    column_labels = dict(FirstName="First Name", LastName='Last Name',
-                         PhoneNumber='Phone Number',
-                         Email='Email', Comment='Comment')
+    form_columns = ['Comment']
+    column_labels = dict(Comment='Comment')
 
 
 class aboutMeModelView(ModelView) :
