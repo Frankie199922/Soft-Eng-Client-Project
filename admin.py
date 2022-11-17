@@ -56,14 +56,16 @@ admin.add_view(FileAdmin(base_path, '/static/', name='Pictures'))
 
 # Modelling database tables
 class Clients(db.Model):
+    __tablename__ = 'Clients'
     ClientID = db.Column(db.Integer, primary_key=True)
-    FirstName = db.Column(db.String(25), unique=False, nullable=False)
-    LastName = db.Column(db.String(25), unique=False, nullable=False)
+    FirstName = db.Column(db.String(25), unique=False, nullable=True)
+    LastName = db.Column(db.String(25), unique=False, nullable=True)
     PhoneNumber = db.Column(db.String(12), unique=True, nullable=True)
     Email = db.Column(db.String(320), unique=True, nullable=True)
 
 
 class Messages(db.Model):
+    __tablename__ = 'Messages'
     MessageID = db.Column(db.Integer, primary_key=True)
     Comment = db.Column(db.String(1000), unique=False, nullable=False)
 
@@ -76,6 +78,7 @@ class ClientMessage(db.Model):
     Message_Date = db.Column(db.DATE)
 
 class Listings(db.Model):
+    __tablename__ = 'Listings'
     PropertyID = db.Column(db.Integer, primary_key=True)
     Location = db.Column(db.String(255), unique=False, nullable=False)
     City = db.Column(db.String(255), unique=False, nullable=False)
@@ -194,11 +197,6 @@ class listingsModelView(ModelView) :
         thumbnail_size=(1000, 800, 1))
         }
 
-    #form_args = {
-        #'Pictures': {
-        #    'allow_overwrite': True
-        #}
-    #}
 
     def create_model(self, form):
         return super().create_model(form)
@@ -254,7 +252,25 @@ def propertyPage(propID):
     return render_template('detailedListing.html',loc=loc)
 
 
-db.create_all()
+@app.route('/#contact', methods=['POST'])
+def contactMe():
+    comment = request.form.get('Comment')
+    if comment != '':
+        m = Messages(Comment=comment)
+        db.session.add(m)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return redirect('/')
+
+
+# Use to create databases
+# db.create_all()
+
+
+# If db.create_all() does not work use this!!
+#with app.app_context():
+    #db.create_all()
 
 
 # Creating ModelView for each table for use with Flask-Admin

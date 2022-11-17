@@ -82,17 +82,16 @@
   <div class="w3-container w3-padding-32" id="contact">
     <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Contact</h3>
     <p>Lets get in touch and talk about your next project.</p>
-    <form action="/#home" method="post">
-      <input class="w3-input w3-border" type="text" placeholder="First Name" name="first">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Last Name"name="last">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Email" name="email">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Subject" name="subject">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Comment" name="comment">
+    <form method="post" action="{{ url_for('contactMe') }}">
+      <input class="w3-input w3-border" type="text" name="FirstName" placeholder="First Name" required name="First Name">
+      <input class="w3-input w3-section w3-border"type="text" name="LastName" placeholder="Last Name" required name="Last Name">
+      <input class="w3-input w3-section w3-border" type="text" name="Email" placeholder="Email" required name="Email">
+      <input class="w3-input w3-section w3-border" type="text" name="Subject" placeholder="Subject" required name="Subject">
+      <input class="w3-input w3-section w3-border" type="text" name="Comment" placeholder="Comment" required name="Comment">
       <button class="w3-button w3-black w3-section" type="submit">
         <i class="fa fa-paper-plane"></i> SEND MESSAGE
       </button>
     </form>
-	
   </div>
   
 
