@@ -210,10 +210,12 @@ def homepage():
     loc = cur.fetchone()
     loc2= cur.fetchone()
     loc3= cur.fetchone()
+    locA = (loc,loc2,loc3)
+    locA = list(filter(None, locA))
 
 
 
-    return render_template('FrontEndWebsite.html',loc=loc,loc2=loc2,loc3=loc3)
+    return render_template('FrontEndWebsite.html',loc=loc,loc2=loc2,loc3=loc3,locA=locA)
 
 
 @app.route('/listings',methods=["GET","POST"])

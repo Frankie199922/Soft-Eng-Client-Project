@@ -50,32 +50,18 @@
   </div>
 
   <div class="w3-row-padding">
-    <div class="w3-col l3 m6 w3-margin-bottom">
+     </div>
+
+  {% for lis in locA %}
+  <div class="w3-col l3 m6 w3-margin-bottom">
       <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc.PropertyID}}>View Listing</a></div>
-        <img src=/static/pictures/{{loc.Pictures.split("'")[1]}} alt="House" style="width:100%">
-		<p>{{loc.Location}}</p>		
-      </div>
-    </div>
-    
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc2.PropertyID}}>View Listing</a></div>
-        <img src=/static/pictures/{{loc2.Pictures.split("'")[1]}} alt="House" style="width:100%">
-		<p>{{loc2.Location}}</p>
-      </div>
-    </div>
-	
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc3.PropertyID}}>View Listing</a></div>
-        <img src=/static/pictures/{{loc3.Pictures}} alt="House" style="width:100%">
-		<p>{{loc3.Location}}</p>
+        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{lis.PropertyID}}>View Listing</a></div>
+        <img src=/static/pictures/{{lis.Pictures.split("'")[1]}} alt="House" style="width:85%">
+		<p>{{lis.Location}}</p>
       </div>
     </div>
   </div>
-  
-
+  {% endfor %}
   
 
   <!-- Contact Section -->

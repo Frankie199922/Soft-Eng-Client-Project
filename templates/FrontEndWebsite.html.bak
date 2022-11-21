@@ -50,48 +50,34 @@
   </div>
 
   <div class="w3-row-padding">
-    <div class="w3-col l3 m6 w3-margin-bottom">
+     </div>
+
+  {% for lis in locA %}
+  <div class="w3-col l3 m6 w3-margin-bottom">
       <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc.PropertyID}}>View Listing</a></div>
-        <img src=/static/pictures/{{loc.Pictures.split("'")[1]}} alt="House" style="width:100%">
-		<p>{{loc.Location}}</p>		
-      </div>
-    </div>
-    
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc2.PropertyID}}>View Listing</a></div>
-        <img src=/static/pictures/{{loc2.Pictures.split("'")[1]}} alt="House" style="width:100%">
-		<p>{{loc2.Location}}</p>
-      </div>
-    </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-display-container">
-        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{loc3.PropertyID}}>View Listing</a></div>
-        <img src=/static/pictures/{{loc3.Pictures}} alt="House" style="width:100%">
-		<p>{{loc3.Location}}</p>
+        <div class="w3-display-topleft w3-black w3-padding"><a href=listings/{{lis.PropertyID}}>View Listing</a></div>
+        <img src=/static/pictures/{{lis.Pictures.split("'")[1]}} alt="House" style="width:75%">
+		<p>{{lis.Location}}</p>
       </div>
     </div>
   </div>
-  
-
+  {% endfor %}
   
 
   <!-- Contact Section -->
   <div class="w3-container w3-padding-32" id="contact">
     <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Contact</h3>
     <p>Lets get in touch and talk about your next project.</p>
-    <form action="/#home" method="post">
-      <input class="w3-input w3-border" type="text" placeholder="First Name" name="first">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Last Name"name="last">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Email" name="email">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Subject" name="subject">
-      <input class="w3-input w3-section w3-border" type="text" placeholder="Comment" name="comment">
+    <form method="post" action="{{ url_for('contactMe') }}">
+      <input class="w3-input w3-border" type="text" name="FirstName" placeholder="First Name" required name="First Name">
+      <input class="w3-input w3-section w3-border"type="text" name="LastName" placeholder="Last Name" required name="Last Name">
+      <input class="w3-input w3-section w3-border" type="text" name="Email" placeholder="Email" required name="Email">
+      <input class="w3-input w3-section w3-border" type="text" name="Subject" placeholder="Subject" required name="Subject">
+      <input class="w3-input w3-section w3-border" type="text" name="Comment" placeholder="Comment" required name="Comment">
       <button class="w3-button w3-black w3-section" type="submit">
         <i class="fa fa-paper-plane"></i> SEND MESSAGE
       </button>
     </form>
-	
   </div>
   
 
