@@ -10,7 +10,6 @@ from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.menu import MenuLink
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import PrimaryKeyConstraint
 from werkzeug.exceptions import abort
 from imageupload import customImageUploadField
 
@@ -63,19 +62,15 @@ class Clients(db.Model):
     PhoneNumber = db.Column(db.String(12), unique=True, nullable=True)
     Email = db.Column(db.String(320), unique=True, nullable=True)
 
-
 class Messages(db.Model):
     __tablename__ = 'Messages'
     MessageID = db.Column(db.Integer, primary_key=True)
+    ClientID = db.Column(db.Integer, db.ForeignKey('Clients.ClientID'))
     Comment = db.Column(db.String(1000), unique=False, nullable=False)
 
-class ClientMessage(db.Model):
-    __table_args__ = (
-        PrimaryKeyConstraint('Client_ID', 'Message_ID'),
-    )
-    Client_ID = db.Column(db.Integer, db.ForeignKey('Clients.ClientID'))
-    Message_ID = db.Column(db.Integer, db.ForeignKey('Messages.MessageID'))
-    Message_Date = db.Column(db.DATE)
+    #relationship
+    client = db.relationship(Clients, backref='Messages', uselist=False, lazy='select', cascade="all,delete")
+
 
 class Listings(db.Model):
     __tablename__ = 'Listings'
@@ -103,32 +98,22 @@ class AboutMe(db.Model):
     Description = db.Column(db.String(255), unique=False, nullable=False)
     Pictures = db.Column(db.String(255), unique=False, nullable=False)
 
-
-# Override ModelView
-
-class ClientMessage(ModelView) :
-   # ModelView Functionality
-   def is_accessible(self):
-       if "logged_in" in session:
-           return True
-       else:
-           abort(403)
-          
-class messageModelView(ModelView) :
+class messageModelView(ModelView):
     # ModelView Functionality
     def is_accessible(self):
         if "logged_in" in session:
             return True
         else:
             abort(403)
-    
+
     can_edit = False
     can_create = False
     can_delete = True
     page_size = 20
 
-    form_columns = ['Comment']
-    column_labels = dict(Comment='Comment')
+    column_labels = {'client.FirstName': 'First Name', 'client.LastName': 'Last Name', 'Comment': 'Comment'}
+    column_list = ('client.FirstName', 'client.LastName', 'Comment')       
+
 
 
 class aboutMeModelView(ModelView) :
@@ -253,12 +238,27 @@ def propertyPage(propID):
     #return a view of the detailed property listing
     return render_template('detailedListing.html',loc=loc)
 
-
 @app.route('/#contact', methods=['POST'])
 def contactMe():
+    firstname = request.form.get('FirstName')
+    lastname = request.form.get('LastName')
+    email = request.form.get('Email')
     comment = request.form.get('Comment')
+
     if comment != '':
-        m = Messages(Comment=comment)
+        existing_client = db.session.query(Clients).filter(Clients.Email == email).first()
+        clientid = 1
+
+        if existing_client is None:
+            c = Clients(FirstName=firstname, LastName=lastname, Email=email)
+            db.session.add(c)
+            db.session.commit()
+            existing_client = db.session.query(Clients).filter(Clients.Email == email).first()
+            clientid = existing_client.ClientID
+        else:
+            clientid = existing_client.ClientID
+
+        m = Messages(Comment=comment, ClientID=clientid)
         db.session.add(m)
         db.session.commit()
         return redirect('/')
