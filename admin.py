@@ -79,7 +79,7 @@ class Listings(db.Model):
     City = db.Column(db.String(255), unique=False, nullable=False)
     State = db.Column(db.String(2), unique=False, nullable=False)
     Zip = db.Column(db.String(5), unique=False, nullable=False)
-    Price = db.Column(db.Float(15, 2), unique=False, nullable=False)
+    Price = db.Column(db.String(255), unique=False, nullable=False)
     Bedroom = db.Column(db.Integer, unique=False, nullable=False)
     Bathroom = db.Column(db.Integer, unique=False, nullable=False)
     SquareFeet = db.Column(db.Float(15, 2), unique=False, nullable=False)
@@ -249,8 +249,8 @@ def contactMe():
 
 
 # If db.create_all() does not work use this!!
-with app.app_context():
-    db.create_all()
+#with app.app_context():
+    #db.create_all()
 
 
 # Creating ModelView for each table for use with Flask-Admin
