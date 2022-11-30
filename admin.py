@@ -93,10 +93,6 @@ class User(db.Model):
     Password = db.Column(db.String(255), unique=True, nullable=False)
 
 
-class AboutMe(db.Model):
-    AboutID = db.Column(db.Integer, primary_key=True)
-    Description = db.Column(db.String(255), unique=False, nullable=False)
-    Pictures = db.Column(db.String(255), unique=False, nullable=False)
 
 class messageModelView(ModelView):
     # ModelView Functionality
@@ -113,24 +109,6 @@ class messageModelView(ModelView):
 
     column_labels = {'client.FirstName': 'First Name', 'client.LastName': 'Last Name', 'Comment': 'Comment'}
     column_list = ('client.FirstName', 'client.LastName', 'Comment')       
-
-
-
-class aboutMeModelView(ModelView) :
-    def is_accessible(self):
-        if "logged_in" in session:
-            return True
-        else:
-            abort(403)
-
-    page_size = 1
-
-    form_columns = ['AboutID', 'Description', 'Pictures']
-    column_labels = dict(Description="Description", Pictures='Picture')
-
-    can_edit = True
-    can_delete = False
-    can_create = False
 
 
 class clientModelView(ModelView) :
@@ -267,7 +245,7 @@ def contactMe():
 
 
 # Use to create databases
-# db.create_all()
+#db.create_all()
 
 
 # If db.create_all() does not work use this!!
@@ -279,7 +257,6 @@ def contactMe():
 admin.add_view(clientModelView(Clients, db.session))
 admin.add_view(messageModelView(Messages, db.session))
 admin.add_view(listingsModelView(Listings, db.session))
-admin.add_view(aboutMeModelView(AboutMe, db.session))
 
 
 if __name__ == '__main__':
