@@ -169,7 +169,7 @@ class listingsModelView(ModelView) :
 def homepage():
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
     cur = db.cursor(MySQLdb.cursors.DictCursor)
-    cur.execute('SELECT * FROM listings ', )
+    cur.execute('SELECT * FROM Listings ', )
     loc = cur.fetchone()
     loc2= cur.fetchone()
     loc3= cur.fetchone()
@@ -185,7 +185,7 @@ def homepage():
 def listings():
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
     cur = db.cursor(MySQLdb.cursors.DictCursor)
-    cur.execute('SELECT * FROM listings ', )
+    cur.execute('SELECT * FROM Listings ', )
     loc=cur.fetchall()
     if request.method=="POST":
         zpc=request.form.get("zp")
@@ -211,7 +211,7 @@ def propertyPage(propID):
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
     cur = db.cursor(MySQLdb.cursors.DictCursor)
     selection=''
-    cur.execute('SELECT * FROM listings Where PropertyID='+str(propID))
+    cur.execute('SELECT * FROM Listings Where PropertyID='+str(propID))
     loc=cur.fetchone()
     #return a view of the detailed property listing
     return render_template('detailedListing.html',loc=loc)
@@ -249,8 +249,8 @@ def contactMe():
 
 
 # If db.create_all() does not work use this!!
-#with app.app_context():
-    #db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 # Creating ModelView for each table for use with Flask-Admin
