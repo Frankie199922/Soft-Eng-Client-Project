@@ -3,7 +3,7 @@ import os.path as op
 import re
 import MySQLdb.cursors
 import pymysql
-from flask import (Flask, abort, redirect, render_template, request, session)
+from flask import (Flask, abort, redirect, render_template, request, session, url_for)
 from flask_admin import Admin
 from flask_admin._backwards import Markup
 from flask_admin.contrib.fileadmin import FileAdmin
@@ -24,13 +24,17 @@ def is_authenticated(self):
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        if request.form.get("username") == "root" and request.form.get("password") == "root":
+    if request.method == 'POST' :
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        user = User.query.filter_by(Username=username, Password=password, UserID=1).first()
+
+        if user is not None :
             session['logged_in'] = True
-            return redirect("/admin")
-        else:
-            return render_template("login.html")
+            return redirect(url_for('admin.index'))
     return render_template("login.html")
+
 
 @app.route("/logout")
 def logout():
