@@ -12,6 +12,7 @@ from flask_admin.menu import MenuLink
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import abort
 from imageupload import customImageUploadField
+from flask_admin.menu import MenuLink
 
 # Connect MYSQL db to pymysql
 connection = 'mysql+pymysql://root:root@localhost/RealEstate'
@@ -266,6 +267,9 @@ def contactMe():
 admin.add_view(clientModelView(Clients, db.session))
 admin.add_view(messageModelView(Messages, db.session))
 admin.add_view(listingsModelView(Listings, db.session))
+
+# Adds link to admin view to go back to hompage of website
+admin.add_link(MenuLink(name='Your Website', category='', url='/'))
 
 
 if __name__ == '__main__':
