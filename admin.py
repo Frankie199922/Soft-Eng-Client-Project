@@ -193,21 +193,26 @@ def listings():
     loc=cur.fetchall()
     if request.method=="POST":
         zpc=request.form.get("zp")
-        l="/listings/"
+        l="/listings/sorted/"
         newL=l+zpc
-        return redirect(newL)
+        return redirect(url_for('sortedZip',pageNumber=zpc))
 
     return render_template('listings.html', loc=loc)
 
 
-@app.route('/listing/<int:pageNumber>')
-def listingsOther(pageNumber):
+@app.route('/listing/sorted/<int:pageNumber>')
+def sortedZip(pageNumber):
+    pg=pageNumber
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
     cur = db.cursor(MySQLdb.cursors.DictCursor)
-    pageNum=pageNumber
-    cur.execute('SELECT * FROM listings ', )
-    locInfo=cur.fetchall()
-    return render_template('altListings.html')
+    pageNum = pageNumber
+    getList = 'SELECT * FROM Listings Where Zip=' + str(pageNum)
+    print(getList)
+    print("hello")
+    cur.execute(getList)
+    loc = cur.fetchall()
+    print(loc)
+    return render_template('Sortedlistings.html', loc=loc,pg=pg)
 
 
 @app.route('/listings/<int:propID>')
@@ -249,7 +254,7 @@ def contactMe():
 
 
 # Use to create databases
-#db.create_all()
+db.create_all()
 
 
 # If db.create_all() does not work use this!!

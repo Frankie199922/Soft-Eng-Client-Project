@@ -13,11 +13,18 @@
       <a href="/#projects" class="w3-bar-item w3-button">My Listings</a>
       <a href="/#about" class="w3-bar-item w3-button">About Me</a>
       <a href="/#contact" class="w3-bar-item w3-button">Contact</a>
+	  <form action="{{url_for("listings")}}" method="post">
+		
+		<input type="text" id="zip" name ="zp" placeholder="search homes by zip">
+		<button type=submit>search</button>
+	</form>
     </div>
   </div>
 </div>
 	<p><br><br></p>
+	<h2 class=>Homes in {{pg}} area <br></h2>
 	<div class="flex-list">
+	
 	{% for lis in loc %}
 		<div class="prop-one">
 		
@@ -35,11 +42,7 @@
 	</div>
 	{% endfor %}	
 		
-	<form action="{{url_for("listings")}}" method="post">
-		
-		<input type="text" id="zip" name ="zp" placeholder="search homes by zip">
-		<button type=submit>search</button>
-	</form>
+	
 	</form>
 	</div>
 	

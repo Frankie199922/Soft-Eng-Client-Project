@@ -23,8 +23,8 @@
 				<div class="msg">{{ msg }}</div><p>&nbsp;
 				<input type="submit" value="Login"></p>
 			</form>
-			<p><a href="/admin/">Already logged in? Click here!<p>
 			<p><a href="/">Come back to home</p>
+			<p><a href="/admin/">Already logged in? Click here!<p>
 			</form></a>
 		</div>
 	</body>
