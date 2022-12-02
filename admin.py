@@ -203,16 +203,15 @@ def listings():
 
 @app.route('/listing/sorted/<int:pageNumber>')
 def sortedZip(pageNumber):
-    pg=pageNumber
+
+    pg = "{:05d}".format(pageNumber)
     db = MySQLdb.connect(host="localhost", user="root", password="root", db="realestate")
     cur = db.cursor(MySQLdb.cursors.DictCursor)
     pageNum = pageNumber
     getList = 'SELECT * FROM Listings Where Zip=' + str(pageNum)
-    print(getList)
-    print("hello")
     cur.execute(getList)
     loc = cur.fetchall()
-    print(loc)
+
     return render_template('Sortedlistings.html', loc=loc,pg=pg)
 
 
