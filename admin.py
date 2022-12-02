@@ -254,7 +254,7 @@ def contactMe():
 
 
 # Use to create databases
-db.create_all()
+#db.create_all()
 
 
 # If db.create_all() does not work use this!!
